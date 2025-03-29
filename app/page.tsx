@@ -1,17 +1,17 @@
-'use client'
 
 import MaxWidthWrapper from "@/components/common/MaxWidthWrapper"
+import Nav from "@/components/common/Nav"
 import { Button } from "@/components/ui/button"
 import { Card, CardDescription, CardHeader } from "@/components/ui/card"
 import { PlayCircle } from "lucide-react"
 import Image from "next/image"
 
 const page = () => {
-  return (
-    <div className="h-screen w-full text-white bg-gradient-to-bl from-black via-zinc-800 to-black ">
-
+  return (<>
+      <Nav />  
+    <div className="h-[100vh] text-white bg-gradient-to-bl from-black via-zinc-800 to-black ">
       <MaxWidthWrapper className="flex flex-col pt-32 gap-20">
-        <div className="flex flex-col items-center gap-8 mb-12 ">
+        <div className="flex flex-col items-center gap-8">
           <h1 className="font-black text-5xl">Easy timestamps for your YouTube videos.</h1>
           <p>generate timestamps for your YouTube descriptions in seconds. Built by creators for creators</p>
           <div className="flex gap-4">
@@ -19,7 +19,7 @@ const page = () => {
             <Button className="font-semibold bg-sky-600 text-white">learn more</Button>
           </div>
         </div>
-        <div className="grid grid-cols-12 gap-8 h-40 ">
+        <div className="grid grid-cols-12 gap-8 h-40">
           {
             [
               {
@@ -35,7 +35,7 @@ const page = () => {
                 description: "Generating timestamp for your YouTube videos can help improve your SEO."
               },
             ].map(elem => {
-              return <Card className="col-span-4 bg-zinc-800 text-white">
+              return <Card key={elem.title} className="col-span-4 bg-zinc-800 text-white">
                 <CardHeader className="text-center">
                   {elem.title}
                 </CardHeader>
@@ -69,6 +69,7 @@ const page = () => {
         </MaxWidthWrapper>
       </div>
     </div>
+</>
   )
 }
 
