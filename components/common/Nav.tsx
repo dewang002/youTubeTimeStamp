@@ -82,7 +82,7 @@ const MobileNav: React.FC<MobileMenu> = ({ session }) => {
   return (
     <Sheet>
       <SheetTrigger>
-        <Button variant={'ghost'} size={'icon'} className='md:hidden'>
+        <Button variant={'ghost'} size={'icon'} className='md:hidden bg-white'>
           <MenuIcon className='h-6 w-6' />
         </Button>
       </SheetTrigger>

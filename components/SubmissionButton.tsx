@@ -1,6 +1,6 @@
 "use client"
 import React from "react"
-import { useFormState } from "react-dom"
+import { useFormStatus } from "react-dom"
 import { Button } from "./ui/button"
 import { Loader2 } from "lucide-react"
 
@@ -9,7 +9,7 @@ interface SubmissionButtonProps {
 }
 
 const SubmissionButton = ({text}:SubmissionButtonProps) => {
-    const { pending } = useFormState()
+    const { pending } = useFormStatus()
 
     return(
         <Button>

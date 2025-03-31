@@ -1,6 +1,5 @@
 
 import MaxWidthWrapper from "@/components/common/MaxWidthWrapper"
-import Nav from "@/components/common/Nav"
 import { Button } from "@/components/ui/button"
 import { Card, CardDescription, CardHeader } from "@/components/ui/card"
 import { PlayCircle } from "lucide-react"
@@ -8,7 +7,6 @@ import Image from "next/image"
 
 const page = () => {
   return (<>
-      <Nav />  
     <div className="h-[100vh] text-white bg-gradient-to-bl from-black via-zinc-800 to-black ">
       <MaxWidthWrapper className="flex flex-col pt-32 gap-20">
         <div className="flex flex-col items-center gap-8">
@@ -69,7 +67,7 @@ const page = () => {
         </MaxWidthWrapper>
       </div>
     </div>
-</>
+  </>
   )
 }
 
