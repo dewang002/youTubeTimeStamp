@@ -1,6 +1,9 @@
 'use server'
 
 import { getServerSession } from "next-auth";
+import { authOptions } from "../api/auth/[...nextauth]/route";
+import { validation } from "@/utils/validation";
+import { getVideoDetails, getVideoId, getVideoTranscript } from "@/utils/youTube";
 
 type GenerateChapter = {
     success: boolean;
@@ -8,8 +11,8 @@ type GenerateChapter = {
     data?: any
 }
 
-export const generateChapters = async (formData): Promise<GenerateChapter> => {
-    const session = await getServerSession()
+export const generateChapters = async (formData:FormData): Promise<GenerateChapter> => {
+    const session = await getServerSession(authOptions)
     if (!session?.user?.email) {
         return { success: false, error: 'not authenticated' }
     }
@@ -18,4 +21,33 @@ export const generateChapters = async (formData): Promise<GenerateChapter> => {
     if (!link) {
         return { success: false, error: 'link rejected' }
     }
+
+    if(!await validation(link)){
+        return {
+            success: false,
+            error: "invalid yt link"
+        }
+    }
+
+    const videoId = await getVideoId(link)
+    if(!videoId){
+        return {
+            success:false,
+            error: "invalid yt link id"
+        }
+    }
+
+    const videoDetail = await getVideoDetails(videoId)
+    const videoTranscript = await getVideoTranscript(videoId)
+
+    if(!videoDetail || !videoDetail.subtitles || videoTranscript?.subtitles.length === 0){
+        return {
+            success: false,
+            error: "video issue"
+        }
+    }
+
+    console.log(videoTranscript?.subtitles[0])
 }
+
+

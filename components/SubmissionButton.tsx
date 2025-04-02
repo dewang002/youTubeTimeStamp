@@ -13,7 +13,7 @@ const SubmissionButton = ({text}:SubmissionButtonProps) => {
 
     return(
         <Button>
-            {pending? <Loader2 /> : text }
+            {pending? <Loader2 className="animate-spin" /> : text }
         </Button>
     )
 }
