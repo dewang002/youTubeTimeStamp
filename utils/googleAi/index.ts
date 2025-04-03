@@ -1,3 +1,4 @@
+"use server"
 import { GoogleGenAI } from "@google/genai";
 import z from "zod"
 
@@ -31,7 +32,7 @@ export async function generateAiChapters(
             throw new Error("not response came")
         }
 
-        console.log("response came ----------------------------------------------------");
+        console.log(response.candidates[0].content);
     }catch(err){
         console.log(err)
         return null
