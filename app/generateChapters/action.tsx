@@ -4,6 +4,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import { validation } from "@/utils/validation";
 import { getVideoDetails, getVideoId, getVideoTranscript } from "@/utils/youTube";
+import { ParseXmlContent } from "@/utils/parser";
+import { generateAiChapters } from "@/utils/googleAi";
 
 type GenerateChapter = {
     success: boolean;
@@ -40,14 +42,44 @@ export const generateChapters = async (formData:FormData): Promise<GenerateChapt
     const videoDetail = await getVideoDetails(videoId)
     const videoTranscript = await getVideoTranscript(videoId)
 
-    if(!videoDetail || !videoDetail.subtitles || videoTranscript?.subtitles.length === 0){
+    if(!videoDetail || !videoDetail.subtitles || !videoTranscript || videoTranscript.subtitles.length === 0){        
         return {
             success: false,
             error: "video issue"
         }
     }
 
-    console.log(videoTranscript?.subtitles[0])
+    const lengthSeconds = typeof videoDetail.lengthSeconds === 'string'? parseInt(videoDetail.lengthSeconds, 10) : videoDetail.lengthSeconds
+
+    if(isNaN(lengthSeconds)){
+        return {
+            success: false,
+            error: "invalid video number"
+        }
+    }
+
+    if(lengthSeconds > 3600){
+        return {
+            success: false,
+            error: "video too long"
+        }
+    }
+
+    const parsedTranscription = await ParseXmlContent(videoTranscript.subtitles[0])
+    if(!parsedTranscription){
+        return {
+            success: false,
+            error: "problem during creating timestamp"
+        }
+    }
+    const googleAiChapter = await generateAiChapters(parsedTranscription, lengthSeconds)
+    if(!googleAiChapter){
+        return {
+            success: false,
+            error: "googleAi issue"
+        }
+    }
+    
 }
 
 
