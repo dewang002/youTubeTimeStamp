@@ -4,7 +4,7 @@ import React from 'react'
 import { authOptions } from '../api/auth/[...nextauth]/route'
 import { redirect } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
-import ChapterWrapper from '@/components/common/ChapterWrapper'
+import ChapterWrapper from '@/components/ChapterWrapper'
 
 const page = async () => {
   const session = await getServerSession(authOptions)

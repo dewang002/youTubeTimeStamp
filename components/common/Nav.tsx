@@ -62,7 +62,7 @@ const NavItems: React.FC<NavItemsProp> = ({ session, mobile = false }) => {
         href: "/dashboard",
         label: "Dashboard",
       }, {
-      href: "/generate-chapter",
+      href: "/generateChapters",
       label: "Generate Chapter"
     }
     )
