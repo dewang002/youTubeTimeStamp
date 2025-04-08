@@ -5,7 +5,7 @@ import { authOptions } from '../api/auth/[...nextauth]/route'
 import { redirect } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
 import ChapterWrapper from '@/components/ChapterWrapper'
-import { createCheckOutLink, createCustomerIfNull, generateCustomerPortalLink, hasSubscription } from '@/utils/stripe'
+import { checkChapterCreationEligibility, createCheckOutLink, createCustomerIfNull, generateCustomerPortalLink, hasSubscription } from '@/utils/stripe'
 import Link from 'next/link'
 
 const page = async () => {
@@ -26,20 +26,38 @@ const page = async () => {
     }
   })
 
+  const checkout_link = await createCheckOutLink("" + userData?.stripe_customer_id)
+  
   const manage_link = await generateCustomerPortalLink("" + userData?.stripe_customer_id)
-  const checkout_link = await createCheckOutLink(""+ userData?.stripe_customer_id)
+
+  const {isEligible, message, remainingGenerations} = await checkChapterCreationEligibility() 
 
   return (
     <div>
-      <div className='flex justify-end'>
-      {
-        !subscribed.isSubscribed && (
-          <Link className='border border-black bg-gradient-to-br from-black via-zinc-500 to-black  text-white p-1 rounded' href={"" + manage_link}>
-            Manage subscription
-          </Link>
-        )
-      }
-      <Header text={`${session.user?.name || "User"} `} />
+      <div className='flex gap-8 justify-end'>
+        {
+          isEligible && message
+        }
+        {
+          !isEligible && message
+        }
+        {
+          subscribed.isSubscribed && (
+            <Link className='border border-black bg-gradient-to-br from-black via-zinc-500 to-black  text-white p-1 rounded' 
+            href={"" + manage_link}>
+              Manage subscription
+            </Link>
+          )
+        }
+        {
+          !subscribed.isSubscribed && (
+            <Link className='border border-black bg-gradient-to-br from-black via-zinc-500 to-black  text-white p-1 rounded'
+            href={"" + checkout_link}>
+              upgrad to PREMIUM
+            </Link>
+          )
+        }
+        <Header text={`${session.user?.name || "User"} `} />
       </div>
       <ChapterWrapper userData={userData} />
     </div>
