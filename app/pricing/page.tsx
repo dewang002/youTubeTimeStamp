@@ -1,5 +1,6 @@
 import MaxWidthWrapper from '@/components/common/MaxWidthWrapper'
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { CheckIcon, XIcon } from 'lucide-react';
 import React from 'react'
@@ -38,10 +39,10 @@ const page = () => {
           Billed Monthly
         </span>
       </div>
-      <div className='flex gap-8'>
+      <div className='sm:flex sm:flex-row flex flex-col items-center gap-8 justify-center'>
         {
           pricingOptions.map(elem => (
-            <Card className={`relative w-full overflow-hidden ${elem.popular ? "border-primary shadow-lg hover:shadow-xl"
+            <Card className={`relative w-sm overflow-hidden ${elem.popular ? "border-primary shadow-lg hover:shadow-xl"
               : "hover:border-primary/50 hover:shadow-md"}`}>
 
               {elem.popular &&
@@ -64,22 +65,24 @@ const page = () => {
                 {elem.description}
               </CardDescription>
               <CardContent className='flex flex-col items-center'>
-              <ul className="space-y-4 mb-8">
-                {elem.features.map((feature, index) => (
-                  <li key={index} className="flex items-center">
-                    <CheckIcon className="w-4 h-4 mr-2 text-primary" />
-                    {feature}
-                  </li>
-                ))}
-                {elem.limitations?.map((limitation, index) => (
-                  <li key={index} className="flex items-center">
-                    <XIcon className="w-4 h-4 mr-2 text-red-500" />
-                    {limitation}
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-
+                <ul className="space-y-4 mb-8">
+                  {elem.features.map((feature, index) => (
+                    <li key={index} className="flex items-center">
+                      <CheckIcon className="w-4 h-4 mr-2 text-primary" />
+                      {feature}
+                    </li>
+                  ))}
+                  {elem.limitations?.map((limitation, index) => (
+                    <li key={index} className="flex items-center">
+                      <XIcon className="w-4 h-4 mr-2 text-red-500" />
+                      {limitation}
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+              <Button className={`${elem.popular ? 'bg-amber-500 hover:bg-amber-500 ' : 'bg-black'} active:scale-95`}>
+                {elem.buttonText}
+              </Button>
             </Card>
           ))
         }

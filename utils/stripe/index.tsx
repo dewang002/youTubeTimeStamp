@@ -133,6 +133,7 @@ export async function checkChapterCreationEligibility(): Promise<{
             isEligible: false,
             message: "You must be logged in to check your eligibility",
             remainingGenerations: 0,
+
         };
     }
 
