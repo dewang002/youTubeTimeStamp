@@ -31,6 +31,7 @@ const Page = () => {
   return (
     <MaxWidthWrapper>
         <h1>{errorTitle}</h1>
+        <p>{errorMessage}</p>
         <Link href='/'>
             go back to home page
         </Link>

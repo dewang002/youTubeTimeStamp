@@ -5,8 +5,8 @@ import { Button } from '../ui/button';
 import { MenuIcon } from 'lucide-react';
 import MaxWidthWrapper from './MaxWidthWrapper';
 import {Session} from 'next-auth'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
 
 interface NavItemProp {
   mobile?: boolean;

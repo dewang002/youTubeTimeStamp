@@ -1,6 +1,5 @@
-import Header from '@/components/common/Header'
 import MaxWidthWrapper from '@/components/common/MaxWidthWrapper'
-import { Delete, DeleteIcon, Linkedin, Mail, Trash, Twitter } from 'lucide-react'
+import { Linkedin, Mail, Trash, Twitter } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 

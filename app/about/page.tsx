@@ -1,5 +1,4 @@
 import MaxWidthWrapper from '@/components/common/MaxWidthWrapper'
-import { ChevronRightCircleIcon } from 'lucide-react'
 import React from 'react'
 
 

@@ -1,17 +1,21 @@
 'use server'
 
 import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route";
 import { validation } from "@/utils/validation";
 import { getVideoDetails, getVideoId, getVideoTranscript } from "@/utils/youTube";
 import { ParseXmlContent } from "@/utils/parser";
 import { generateAiChapters } from "@/utils/googleAi";
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
+import { authOptions } from "@/lib/auth";
 
 type GenerateChapter = {
     success: boolean;
     error?: string;
-    data?: any
+    data?: {
+        title: string;
+        content: string[];
+        userId: string;
+    }
 }
 
 export const generateChapters = async (formData: FormData): Promise<GenerateChapter> => {

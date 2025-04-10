@@ -41,8 +41,8 @@ const page = () => {
       </div>
       <div className='sm:flex sm:flex-row flex flex-col items-center gap-8 justify-center'>
         {
-          pricingOptions.map(elem => (
-            <Card className={`relative w-sm overflow-hidden ${elem.popular ? "border-primary shadow-lg hover:shadow-xl"
+          pricingOptions.map((elem, index) => (
+            <Card key={index} className={`relative w-sm overflow-hidden ${elem.popular ? "border-primary shadow-lg hover:shadow-xl"
               : "hover:border-primary/50 hover:shadow-md"}`}>
 
               {elem.popular &&

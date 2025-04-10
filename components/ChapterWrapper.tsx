@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import {
     Pagination,
     PaginationContent,
-    PaginationEllipsis,
     PaginationItem,
     PaginationLink,
     PaginationNext,
@@ -17,7 +16,17 @@ import { TooltipContent } from '@radix-ui/react-tooltip'
 
 const ItemsPerPage = 6
 
-const ChapterWrapper = ({ userData }: { userData: any }) => {
+interface Chapter {
+    id: string;
+    title: string;
+    content: string[];
+}
+
+interface UserData {
+    savedChapters: Chapter[];
+}
+
+const ChapterWrapper = ({ userData }: { userData: UserData }) => {
     const [copiedId, setCopiedId] = useState<string | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
     const totalPage = Math.ceil(userData.savedChapters.length / ItemsPerPage)
@@ -42,14 +51,14 @@ const ChapterWrapper = ({ userData }: { userData: any }) => {
             <div className='grid grid-cols-12 gap-4'>
                 {
                     userData?.savedChapters && userData.savedChapters.length > 0 ? (
-                        currentChapters.map((elem: any) => (
+                        currentChapters.map((elem: Chapter) => (
                             <div key={elem.id} className='col-span-4 p-10'>
                                 <h1 className='font-bold pb-8'>{elem.title}</h1>
 
                                 <div className='w-full rounded p-4 h-64 overflow-auto border'>
                                     {
-                                        elem.content.map((content: any) => (
-                                            <h1>{content}</h1>
+                                        elem.content.map((content: string) => (
+                                            <h1 key={content}>{content}</h1>
                                         ))
                                     }
                                 </div>
@@ -101,7 +110,7 @@ const ChapterWrapper = ({ userData }: { userData: any }) => {
                     </PaginationItem>
 
                     {
-                        [...Array(totalPage)].map((elem, index) => (
+                        [...Array(totalPage)].map((_, index) => (
                             <PaginationItem key={index}>
                                 <PaginationLink href='#' onClick={() => setCurrentPage(index + 1)} >
                                     {index + 1}
@@ -111,7 +120,7 @@ const ChapterWrapper = ({ userData }: { userData: any }) => {
                     }
 
                     <PaginationItem>
-                        <PaginationNext onClick={() => setCurrentPage(prev => Math.max(1, prev + 1))}
+                        <PaginationNext onClick={() => setCurrentPage(prev => Math.min(totalPage, prev + 1))}
                             className={`${currentPage === totalPage ? 'pointer-events-none text-zinc-400' : 'pointer-events-auto '}`}
                         />
                     </PaginationItem>

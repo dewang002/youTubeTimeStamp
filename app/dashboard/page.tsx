@@ -1,12 +1,12 @@
 import Header from '@/components/common/Header'
 import { getServerSession } from 'next-auth'
 import React from 'react'
-import { authOptions } from '../api/auth/[...nextauth]/route'
 import { redirect } from 'next/navigation'
-import { prisma } from '@/lib/prisma'
+import prisma  from '@/lib/prisma'
 import ChapterWrapper from '@/components/ChapterWrapper'
 import { checkChapterCreationEligibility, createCheckOutLink, createCustomerIfNull, generateCustomerPortalLink, hasSubscription } from '@/utils/stripe'
 import Link from 'next/link'
+import { authOptions } from '@/lib/auth'
 
 const page = async () => {
   const session = await getServerSession(authOptions)
@@ -18,7 +18,7 @@ const page = async () => {
   const subscribed = await hasSubscription()
   const userData = await prisma.user.findFirst({
     where: {
-      email: session?.user?.email!
+      email: session.user?.email || ""
     },
     select: {
       savedChapters: true,
@@ -30,7 +30,7 @@ const page = async () => {
   
   const manage_link = await generateCustomerPortalLink("" + userData?.stripe_customer_id)
 
-  const {isEligible, message, remainingGenerations} = await checkChapterCreationEligibility() 
+  const {isEligible, message} = await checkChapterCreationEligibility() 
 
   return (
     <div>
@@ -59,7 +59,7 @@ const page = async () => {
         }
         <Header text={`${session.user?.name || "User"} `} />
       </div>
-      <ChapterWrapper userData={userData} />
+      <ChapterWrapper userData={{ savedChapters: userData?.savedChapters || [] }} />
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import Stripe from 'stripe'
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import { prisma } from '@/lib/prisma';
+import prisma  from '@/lib/prisma';
+import { authOptions } from '@/lib/auth';
 
 export const stripe = new Stripe(process.env.STRIPE_SECRET!, {
     apiVersion: '2025-03-31.basil'

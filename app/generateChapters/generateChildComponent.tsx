@@ -6,7 +6,7 @@ import { generateChapters } from "./action"
 import { useRouter } from "next/navigation"
 import MaxWidthWrapper from "@/components/common/MaxWidthWrapper"
 
-const pages = () => {
+const Pages = () => {
     const router = useRouter();
 
     const handleSubmit = async (formData: FormData) => {
@@ -14,7 +14,7 @@ const pages = () => {
         if (result.success) {
             router.push("/dashboard")
         } else {
-            router.push(`/error/message?=${result.error}`)
+            router.push(`/error?error=${result.error}`)
         }
     }
 
@@ -39,4 +39,4 @@ const pages = () => {
     )
 }
 
-export default pages
+export default Pages
