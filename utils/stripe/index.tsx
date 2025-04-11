@@ -1,10 +1,10 @@
 import Stripe from 'stripe'
 import { getServerSession } from 'next-auth';
-import prisma  from '@/lib/prisma';
+import prisma from '@/lib/prisma';
 import { authOptions } from '@/lib/auth';
 
 export const stripe = new Stripe(process.env.STRIPE_SECRET!, {
-    apiVersion: '2025-03-31.basil'
+    apiVersion: "2024-06-20" as any
 })
 
 interface StripeSubscription {
@@ -36,8 +36,8 @@ export const hasSubscription = async (): Promise<{ isSubscribed: boolean; subscr
 
         return {
             isSubscribed: subscriptions.data.length > 0,
-            subscriptionData: subscriptions.data,
-        };
+            subscriptionData: subscriptions.data as unknown as StripeSubscription[],
+          };
     }
     return {
         isSubscribed: false,
